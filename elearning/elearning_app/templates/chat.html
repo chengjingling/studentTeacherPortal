@@ -1,0 +1,13 @@
+{% extends "./base.html" %}
+
+{% block body %}
+    <body onload="writeChat('{{ room_name }}')">
+{% endblock %}
+
+{% block content %}
+    <a href="/chats">Back</a>
+    <div id="chat">
+        Didn't render chat
+    </div>
+    <br><br><br><br><br>
+{% endblock %}

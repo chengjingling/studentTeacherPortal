@@ -1,0 +1,15 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    {% if user_details.type == 'student' %}
+        <h2>Access denied.</h2>
+        This page is available to teachers only.
+    {% else %}
+        <h1>Create Course</h1>
+        <form onsubmit="createCourse(event)" enctype="multipart/form-data" id="createCourseForm">
+            {% csrf_token %}
+            {{ course_form.as_p }}
+            <input type="submit" value="Create">
+        </form>
+    {% endif %}
+{% endblock %}

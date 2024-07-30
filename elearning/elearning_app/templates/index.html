@@ -1,0 +1,35 @@
+{% extends "./base.html" %}
+
+{% block body %}
+    <body onload="writeStatuses()">
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome back, {{ user_details.first_name }} {{ user_details.last_name }}!</h1>
+    You have {{ unread_notifications }} unread notifications. Click <a href="/notifications">here</a> to view.
+    <h1>My Courses</h1>
+    {% if courses|length == 0 %}
+        You have no courses.
+    {% else %}
+        {% for course in courses %}
+            <a href="/my_courses/{{ course.code }}">{{ course.code }} {{ course.name }}</a>
+            {% if not forloop.last %}
+                <br>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if user_details.type == 'student' %}
+        <h1>Status</h1>
+        <h2>Status Posts</h2>
+        <div id="statuses">
+            Didn't render statuses
+        </div>
+        <h2>Post Status</h2>
+        <form onsubmit="createStatus(event)" enctype="multipart/form-data" id="createStatusForm">
+            {% csrf_token %}
+            {{ status_form.as_p }}
+            <input type="submit" value="Post">
+        </form>
+    {% endif %}
+    <br><br><br><br><br>
+{% endblock %}

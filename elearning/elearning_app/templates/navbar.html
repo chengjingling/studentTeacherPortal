@@ -1,0 +1,15 @@
+<div class="navbar">
+    <a href="/" {% if request.path == "/" %}class="active"{% endif %}>Home</a>
+    <a href="/my_courses" {% if "my_courses" in request.path %}class="active"{% endif %}>My Courses</a>
+    {% if user_details.type == 'student' %}
+        <a href="/available_courses" {% if "available_courses" in request.path %}class="active"{% endif %}>Available Courses</a>
+        <a href="/feedback" {% if "feedback" in request.path %}class="active"{% endif %}>Feedback</a>
+    {% endif %}
+    <a href="/search_students" {% if "search_students" in request.path %}class="active"{% endif %}>Search Students</a>
+    <a href="/search_teachers" {% if "search_teachers" in request.path %}class="active"{% endif %}>Search Teachers</a>
+    <a href="/chats" {% if "chats" in request.path %}class="active"{% endif %}>Chats</a>
+    <a href="/notifications" {% if "notifications" in request.path %}class="active"{% endif %}>Notifications</a>
+    <a href="/profile" {% if "profile" in request.path %}class="active"{% endif %}>Profile</a>
+    <a href="/logout">Log Out</a>
+    <div>Logged in as: {{ user_details.first_name }} {{ user_details.last_name }}</div>
+</div>

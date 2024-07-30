@@ -1,0 +1,29 @@
+{% extends "./base.html" %}
+
+{% block body %}
+    <body onload="writeAppUserDetails('{{ id }}')">
+{% endblock %}
+
+{% block content %}
+    {% if "search_students" in request.path %}
+        <a href="/search_students">Back</a>
+    {% else %}
+        <a href="/search_teachers">Back</a>
+    {% endif %}<br><br>
+    <div class="container">
+        <div class="container-left" id="containerLeft">
+            Didn't render photo
+        </div>
+        <div class="container-right">
+            <div id="containerRight">
+                Didn't render user details
+            </div>
+            {% if user_details.type == 'teacher' %}
+                <div id="deleteStudentDiv">
+                    Didn't render delete button
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <br><br><br><br><br>
+{% endblock %}

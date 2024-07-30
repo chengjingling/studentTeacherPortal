@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    <h1>Search Students</h1>
+    <h2>Enter Student's Name</h2>
+    <input type="text" id="searchInput" placeholder="Search...">
+    <h2>Results</h2>
+    <div id="searchResultsDiv"></div>
+    <br><br><br><br><br>
+    <script>
+        var students = JSON.parse("{{ students|escapejs }}");
+        var searchResultsDiv = document.getElementById("searchResultsDiv");
+        if (students.length == 0) {
+            searchResultsDiv.textContent = "There are no students.";
+        }
+        else {
+            for (var i = 0; i < students.length; i++) {
+                var div = document.createElement("div");
+                div.id = students[i].pk;
+                var a = document.createElement("a");
+                a.href = "/search_students/" + students[i].pk;
+                a.textContent = students[i].fields.first_name + " " + students[i].fields.last_name;
+                var br = document.createElement("br");
+                div.append(a);
+                div.append(br);
+                searchResultsDiv.append(div);
+            }
+            var searchInput = document.getElementById("searchInput");
+            searchInput.addEventListener("input", function() {
+                for (var i = 0; i < students.length; i++) {
+                    var name = (students[i].fields.first_name + " " + students[i].fields.last_name).toLowerCase();
+                    var searchString = searchInput.value.toLowerCase();
+                    var studentDiv = document.getElementById(students[i].pk);
+                    if (name.includes(searchString)) {
+                        studentDiv.style.display = "block";
+                    }
+                    else {
+                        studentDiv.style.display = "none";
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}

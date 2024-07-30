@@ -1,0 +1,25 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-left">
+            <img src="/media/{{ user_details.photo }}" width="400">
+        </div>
+        <div class="container-right">
+            <h1>Profile</h1>
+            First Name: {{ user_details.first_name }}<br>
+            Last Name: {{ user_details.last_name }}<br>
+            ID: {{ user_details.id }}<br>
+            Email: {{ user_details.email }}<br>
+            Username: {{ user_details.user.username }}<br>
+            {% if user_details.type == 'student' %}
+                Role: Student
+            {% else %}
+                Role: Teacher
+            {% endif %}<br><br>
+            <button onclick="window.location.href='/logout';">Log Out</button>
+            <button onclick="confirmDeleteAccount('{{ user_details.id }}')">Delete Account</button>
+        </div>
+    </div>
+    <br><br><br><br><br>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+
+{% block body %}
+    {% if user_details.type == 'student' %}
+        <body onload="writeMaterialNotifications()">
+    {% else %}
+        <body onload="writeEnrolNotifications()">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>Notifications</h1>
+    <div id="notifications">
+        Didn't render notifications
+    </div>
+    <br><br><br><br><br>
+{% endblock %}

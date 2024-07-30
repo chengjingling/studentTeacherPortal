@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+
+{% block body %}
+    <body onload="writeCourseDetails('{{ course.code }}')">
+{% endblock %}
+
+{% block content %}
+    <a href="/my_courses">Back</a>
+    {% if not course %}<br><br>
+        Course does not exist.
+    {% elif user_details.type == 'student' and user_details not in course.students.all %}<br><br>
+        You are not authorised to view this page.
+    {% elif user_details.type == 'teacher' and user_details != course.teacher %}<br><br>
+        You are not authorised to view this page.
+    {% else %}
+        <h1 id="heading">Didn't render heading</h1>
+        <h2>Teacher</h2>
+        <p id="teacher">Didn't render teacher</p>
+        <h2>Description</h2>
+        <p id="description">Didn't render description</p>
+        <h2>Materials</h2>
+        <div id="materials">Didn't render materials</div>
+        <form enctype="multipart/form-data" id="deleteMaterialForm">
+            {% csrf_token %}
+        </form>
+        {% if user_details.type == 'student' %}<br>
+            <button onclick="confirmUnenrol('{{ course.code }}')">Unenrol</button>
+        {% else %}
+            <h2>Upload Material</h2>
+            <form onsubmit="createMaterial(event, '{{ course.code }}')" enctype="multipart/form-data" id="createMaterialForm">
+                {% csrf_token %}
+                {{ material_form.as_p }}
+                <input type="submit" value="Upload">
+            </form>
+            <h2>Students</h2>
+            <div id="students">Didn't render students</div>
+            <h2>Feedback</h2>
+            <div id="feedbacks">Didn't render feedbacks</div><br>
+            <button onclick="window.location.href='/my_courses/{{ course.code }}/update';">Update</button>
+            <button onclick="confirmDeleteCourse('{{ course.code }}')">Delete</button>
+        {% endif %}
+    {% endif %}
+    <br><br><br><br><br>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    <h1>Chats</h1>
+    <h2>Create a Chat</h2>
+    <form onsubmit="createChat(event)" enctype="multipart/form-data" id="createChatForm">
+        {% csrf_token %}
+        {{ chat_form.as_p }}
+        <input type="submit" value="Create">
+    </form>
+    <h2>My Chats</h2>
+    {% if my_chats|length == 0 %}
+        You do not have any chats.
+    {% else %}
+        {% for my_chat in my_chats %}
+            <a href="/chats/{{ my_chat.room_name }}">{{ my_chat.room_name }}</a><br>
+        {% endfor %}
+    {% endif %}
+    <h2>Join a Chat</h2>
+    {% if other_chats|length == 0 %}
+        There are no other chats.
+    {% else %}
+        {% for other_chat in other_chats %}
+            <a href="/chats/{{ other_chat.room_name }}/join">{{ other_chat.room_name }}</a><br>
+        {% endfor %}
+    {% endif %}
+    <br><br><br><br><br>
+{% endblock %}

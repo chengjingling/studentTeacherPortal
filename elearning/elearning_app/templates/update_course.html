@@ -1,0 +1,22 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    {% if user_details.type == 'student' %}
+        <h2>Access denied.</h2>
+        This page is available to teachers only.
+    {% else %}
+        {% if not course %}
+            Course does not exist.
+        {% elif user_details != course.teacher %}
+            You are not authorised to view this page.
+        {% else %}
+            <a href="/my_courses/{{ course.code }}">Back</a>
+            <h1>Update Course</h1>
+            <form onsubmit="updateCourse(event, '{{ course.code }}')" enctype="multipart/form-data" id="updateCourseForm">
+                {% csrf_token %}
+                {{ course_form.as_p }}
+                <input type="submit" value="Update">
+            </form>
+        {% endif %}
+    {% endif %}
+{% endblock %}

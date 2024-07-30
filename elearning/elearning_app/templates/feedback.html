@@ -1,0 +1,35 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    {% if user_details.type == 'teacher' %}
+        <h2>Access denied.</h2>
+        This page is available to students only.
+    {% else %}
+        <h1>Feedback</h1>
+        <h2>Submit Feedback</h2>
+        {% if courses|length == 0 %}
+            You need to be enrolled in at least 1 course in order to submit feedback. Click <a href="/available_courses">here</a> to browse available courses.
+        {% else %}
+            <form onsubmit="createFeedback(event)" enctype="multipart/form-data" id="createFeedbackForm">
+                <select name="course">
+                    {% for course in courses %}
+                        <option>{{ course.code }} {{ course.name }}</option>
+                    {% endfor %}
+                </select>
+                {% csrf_token %}
+                {{ feedback_form.as_p }}
+                <input type="submit" value="Submit">
+            </form>
+        {% endif %}
+        <h2>Submitted</h2>
+        {% if feedbacks|length == 0 %}
+            You have not submitted any feedback.
+        {% else %}
+            {% for feedback in feedbacks %}
+                <h3>{{ feedback.course.code }} {{ feedback.course.name }}</h3>
+                {{ feedback.description }}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    <br><br><br><br><br>
+{% endblock %}

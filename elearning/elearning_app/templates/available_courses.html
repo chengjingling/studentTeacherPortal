@@ -1,0 +1,25 @@
+{% extends "./base.html" %}
+
+{% block content %}
+    {% if user_details.type == 'teacher' %}
+        <h2>Access denied.</h2>
+        This page is available to students only.
+    {% else %}
+        <h1>Available Courses</h1>
+        {% if courses|length == 0 %}
+            There are no available courses.
+        {% else %}
+            {% for course in courses %}
+                <h2>{{ course.code }} {{ course.name }}</h2>
+                Taught by: <a href="/search_teachers/{{ course.teacher.id }}">{{ course.teacher.first_name }} {{ course.teacher.last_name }}</a><br><br>
+                {{ course.description }}<br><br>
+                {% if user_details in course.students.all %}
+                    <button class="enrolled-button" disabled>Enrolled</button><br>
+                {% else %}
+                    <button onclick="window.location.href='/available_courses/{{ course.code }}/enrol';">Enrol</button><br>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    <br><br><br><br><br>
+{% endblock %}
